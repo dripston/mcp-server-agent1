@@ -1,9 +1,9 @@
 services:
-  - type: pserv
+  - type: web
     name: sadapurne-mcp-server
     env: python
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "python mcp_server.py"
+    startCommand: "python web_mcp_server.py"
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.16

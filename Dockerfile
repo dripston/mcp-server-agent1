@@ -16,8 +16,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
-# Expose port (MCP typically uses stdio, but we'll expose a port for potential HTTP wrapper)
+# Expose port
 EXPOSE 8000
 
-# Run the application
-CMD ["python", "mcp_server.py"]
+# Run the web application
+CMD ["python", "web_mcp_server.py"]
