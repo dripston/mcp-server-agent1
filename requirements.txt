@@ -1,3 +1,4 @@
-mcp==0.1.0
+# Install mcp from GitHub directly since it's not available on PyPI
+git+https://github.com/modelcontextprotocol/python-sdk.git
 supabase==2.4.5
 python-dotenv==1.0.0
