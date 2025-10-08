@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+t #!/usr/bin/env python3
 import asyncio
 import os
 from mcp import Tool
