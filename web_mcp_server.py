@@ -34,7 +34,8 @@ def home():
             "get_verified_producer_by_aadhar": "POST /api/producer/aadhar",
             "get_verified_producer_by_name": "POST /api/producer/name",
             "get_all_verified_producers": "GET /api/producers",
-            "get_producer_by_fssai": "POST /api/producer/fssai"
+            "get_producer_by_fssai": "POST /api/producer/fssai",
+            "get_producer_by_pin": "POST /api/producer/pin"
         }
     }), 200
 
@@ -142,6 +143,34 @@ def get_producer_by_fssai():
             return jsonify({
                 "status": "not_found",
                 "message": "No verified producer found with this FSSAI number"
+            }), 404
+
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "message": f"Error: {str(e)}"
+        }), 500
+
+@app.route('/api/producer/pin', methods=['POST'])
+def get_producer_by_pin():
+    """Get verified producer information by PIN"""
+    try:
+        data = request.get_json()
+        if not data or 'pin' not in data:
+            return jsonify({"error": "Missing 'pin' in request body"}), 400
+
+        pin = data['pin']
+        result = supabase.table('verified_producers').select('*').eq('pin', pin).execute()
+
+        if result.data:
+            return jsonify({
+                "status": "success",
+                "data": result.data[0]
+            }), 200
+        else:
+            return jsonify({
+                "status": "not_found",
+                "message": "No verified producer found with this PIN"
             }), 404
 
     except Exception as e:

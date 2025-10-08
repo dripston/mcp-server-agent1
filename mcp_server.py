@@ -65,6 +65,17 @@ async def list_tools():
                 },
                 "required": ["fssai_number"]
             }
+        ),
+        Tool(
+            name="get_producer_by_pin",
+            description="Get verified producer information by PIN",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "pin": {"type": "integer", "description": "The PIN number"}
+                },
+                "required": ["pin"]
+            }
         )
     ]
 
@@ -121,6 +132,20 @@ async def call_tool(name: str, arguments: dict):
                 return [TextContent(type="text", text=json.dumps(result.data[0], indent=2))]
             else:
                 return [TextContent(type="text", text="No verified producer found with this FSSAI number")]
+
+        except Exception as e:
+            return [TextContent(type="text", text=f"Error: {str(e)}")]
+
+    elif name == "get_producer_by_pin":
+        pin = arguments["pin"]
+        try:
+            result = supabase.table('verified_producers').select('*').eq('pin', pin).execute()
+
+            if result.data:
+                import json
+                return [TextContent(type="text", text=json.dumps(result.data[0], indent=2))]
+            else:
+                return [TextContent(type="text", text="No verified producer found with this PIN")]
 
         except Exception as e:
             return [TextContent(type="text", text=f"Error: {str(e)}")]
